@@ -1,0 +1,33 @@
+CREATE OR replace TABLE "raw_temp" AS
+SELECT DISTINCT "breadcrumbs",
+                "itemid"
+FROM "electroworld_raw" 
+;
+CREATE OR replace TABLE "kategorizace" AS
+SELECT     electroworld_raw."breadcrumbs",
+           kategorie."podkategorie",
+           kategorie."kategorie",
+           electroworld_clean.*
+FROM       "electroworld_cz" AS electroworld_clean
+JOIN       "raw_temp"        AS electroworld_raw
+ON         electroworld_clean."itemid" = electroworld_raw."itemid"
+INNER JOIN "kategorie-electroworld" AS kategorie
+ON         kategorie."electroworld_kategorie"= electroworld_raw."breadcrumbs" 
+;
+CREATE OR replace TABLE "electroworld_final" AS
+SELECT   "Kategorie",
+         "Podkategorie",
+         "shop",
+         "itemName",
+         "currentPrice",
+         "breadCrumbs",
+         "itemUrl",
+         "itemId",
+         "date",
+         LEFT ("date", 7) AS "month",
+         ROUND( AVG("currentPrice") OVER (PARTITION BY "itemId", "month"), 0) AS "avg_price", 
+         ROW_NUMBER () OVER (PARTITION BY "itemId", "month" ORDER BY "date")  AS "row_num"
+FROM     "kategorizace"
+QUALIFY "row_num" = 1
+ORDER BY "date" DESC 
+;
