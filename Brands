@@ -1,0 +1,23 @@
+ALTER TABLE "kasa_final"
+ADD "brand" varchar;
+UPDATE "kasa_final"
+SET "brand" = CASE 
+    WHEN "itemName" ILIKE '%Acer%' THEN 'Acer'
+    WHEN "itemName" ILIKE '%Asus%' THEN 'Asus'
+    WHEN "itemName" ILIKE '%Dell%' THEN 'Dell'
+    WHEN "itemName" ILIKE '%HP%' THEN 'Hp'
+    WHEN "itemName" ILIKE '%Lenovo%' THEN 'Lenovo'
+    WHEN "itemName" ILIKE '%Yoga%' THEN 'Lenovo'
+    WHEN "itemName" ILIKE '%Msi%' THEN 'Msi'
+    WHEN "itemName" ILIKE '%Gigabyte%' THEN 'Gigabyte'
+    WHEN "itemName" ILIKE '%Macbook%' THEN 'Apple Macbook'
+    WHEN "itemName" ILIKE '%Huawei%' THEN 'Huawei'
+    WHEN "itemName" ILIKE '%Umax%' THEN 'Umax'
+    WHEN "itemName" ILIKE '%Microsoft%' THEN 'Microsoft'
+    WHEN "itemName" ILIKE '%Toshiba%' THEN 'Toshiba'
+    WHEN "itemName" ILIKE '%Fujitsu%' THEN 'Fujitsu'
+    WHEN "itemName" ILIKE '%Honor%' THEN 'Honor'
+    ELSE 'ostatni' 
+    END
+WHERE "Podkategorie" IN ('Notebooky') 
+;
