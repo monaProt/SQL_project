@@ -1,0 +1,17 @@
+SELECT DISTINCT SPLIT_PART ("breadcrumbs", ',', 2)
+FROM   "KEBOOLA_3339"."WORKSPACE_409277728"."datart-datart-cz-raw-ukazka"
+WHERE  "breadcrumbs" <> ''
+       AND "breadcrumbs" NOT LIKE 'Chytré produkty,Chytrá domácnost%'
+       AND "breadcrumbs" NOT LIKE 'Chytré produkty,Chytré hračky%'
+       AND "breadcrumbs" NOT LIKE 'Dílna, zahrada%'
+       AND "breadcrumbs" NOT LIKE 'Elektromobilita%'
+       AND "breadcrumbs" NOT LIKE 'Herní zóna%'
+       AND "breadcrumbs" NOT LIKE 'Příslušenství,Žárovky a osvětlení%'
+       AND "breadcrumbs" NOT LIKE 'Péče o tělo%'
+       AND "breadcrumbs" NOT LIKE 'datart%'
+ORDER  BY 1;
+
+--rozdělení pro počítače a notebooky
+SELECT DISTINCT SPLIT_PART ("breadcrumbs", ',', 3)
+FROM   "KEBOOLA_3339"."WORKSPACE_409277728"."datart-datart-cz-raw-ukazka"
+WHERE  "breadcrumbs" LIKE '%Notebooky a PC%';
